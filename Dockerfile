@@ -1,17 +1,9 @@
-# Используйте официальный образ Node.js как базовый
-FROM node:14
+FROM ubuntu:16.04
 
-# Установите рабочий каталог в контейнере
-WORKDIR /usr/src/app
+RUN apt-get -y update
+RUN apt-get -y install apache2
 
-# Копируйте файлы проекта и установочные файлы в контейнер
-COPY package*.json ./
+RUN echo 'Hello World from Docker!' > /var/www/html/index.html
 
-# Установите зависимости проекта
-RUN npm install
-
-# Копируйте остальные файлы проекта в контейнер
-COPY . .
-
-# Запускайте ваше приложение при старте контейнера
-CMD [ "npm", "start" ]
+CMD ["/usr/sbin/apache2ctl", "-D","FOREGROUND"]
+EXPOSE 80
